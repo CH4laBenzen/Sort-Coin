@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Green_Ball
+  m_Shader: {fileID: 4800000, guid: 3a59e1a39b4beb644980c8cc2d20594b, type: 3}
+  m_Parent: {fileID: 2100000, guid: 8b49fedbe8c85af4cb1a14e46a86f2ba, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - TCP2_MOBILE
+  - TCP2_REFLECTIONS_FRESNEL
+  - TCP2_RIM_LIGHTING_LIGHTMASK
+  - TCP2_SHADOW_LIGHT_COLOR
+  - TCP2_SPECULAR
+  - TCP2_SPECULAR_STYLIZED
+  - TCP2_UV_NORMALS_FULL
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 1
+    - _SpecularToonSmoothness: 1
+    - _UseSpecular: 1
+    m_Colors:
+    - _BaseColor: {r: 0.049394794, g: 0.6981132, b: 0.21620806, a: 1}
+    - _SColor: {r: 0.10157913, g: 0.5660378, b: 0.07208972, a: 1}
+    - _SpecularColor: {r: 0.009988905, g: 0.09433961, b: 0, a: 1}
+  m_BuildTextureStacks: []
