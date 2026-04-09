@@ -4,36 +4,35 @@ using UnityEngine;
 
 public class CoinDock : MonoBehaviour
 {
-    public int capacity;
+    [SerializeField] private float maxSlots = 10f;
     public List<Coin> coinStack = new List<Coin>();
-    public Transform[] slotPositions;
+    public GameObject[] SlotPositions;
 
-    public Coin GetTopCoin()
+    public void MoveToDock(Coin coin)
     {
-        if (coinStack.Count == 0) return null;
-        return coinStack[coinStack.Count - 1];
+        if(coinStack.Count <= maxSlots)
+        {
+            coinStack.Add(coin);
+            coin.MoveToTarget(SlotPositions[coinStack.Count].transform.position);
+        }
+        else
+        {
+            return;
+        }
     }
 
-    public bool CanAddCoin(Coin newCoin)
+    public void OnMouseDown()
     {
-        if (coinStack.Count >= capacity) return false;
-        if (coinStack.Count == 0) return true;
-
-        return GetTopCoin().coinValue == newCoin.coinValue;
+        Debug.Log("Da click vao" + gameObject.name);
     }
 
-    public void AddCoin(Coin coin)
+    public void ClearDock()
     {
-        coinStack.Add(coin);
-        coin.transform.SetParent(this.transform);
-        coin.MoveToTarget(slotPositions[coinStack.Count].position);
+        for (int i = 0; i < coinStack.Count; i++)
+        {
+            Destroy(coinStack[i].gameObject);
+        }
+        coinStack.Clear();
     }
 
-    public Coin RemoveTopCoin()
-    {
-        if (coinStack.Count == 0) return null;
-        Coin topCoin = GetTopCoin();
-        coinStack.RemoveAt(coinStack.Count - 1);
-        return topCoin;
-    }
 }
