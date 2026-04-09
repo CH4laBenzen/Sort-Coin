@@ -4,35 +4,48 @@ using UnityEngine;
 
 public class CoinDock : MonoBehaviour
 {
-    [SerializeField] private float maxSlots = 10f;
-    public List<Coin> coinStack = new List<Coin>();
-    public GameObject[] SlotPositions;
+    [SerializeField] private float CoinStack = 9f;
+    [SerializeField] private string coinvalue;
 
-    public void MoveToDock(Coin coin)
+    private float count;
+
+    public List<Coin> coins = new List<Coin>();
+    public Transform[] SlotPositions;
+
+    public void AddCoin(Coin coin)
     {
-        if(coinStack.Count <= maxSlots)
-        {
-            coinStack.Add(coin);
-            coin.MoveToTarget(SlotPositions[coinStack.Count].transform.position);
-        }
-        else
+        if (coins.Count >= CoinStack)
         {
             return;
         }
-    }
-
-    public void OnMouseDown()
-    {
-        Debug.Log("Da click vao" + gameObject.name);
-    }
-
-    public void ClearDock()
-    {
-        for (int i = 0; i < coinStack.Count; i++)
+        else if(count > (CoinStack - coins.Count))
         {
-            Destroy(coinStack[i].gameObject);
+            return;
         }
-        coinStack.Clear();
+        else
+        {
+            coins.Add(coin);
+            coin.MoveToTarget(SlotPositions[coins.Count - 1].position);
+        }
     }
+
+    public void ExchangeCoin(Coin topcoin)
+    {
+        count = 1;
+        coinvalue = topcoin.coinValue;
+        for(int i = coins.Count - 1; i > 0; i++)
+        {
+            if (coins[i].coinValue == coinvalue)
+            {
+                count++;
+                AddCoin(coins[i]);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
 
 }

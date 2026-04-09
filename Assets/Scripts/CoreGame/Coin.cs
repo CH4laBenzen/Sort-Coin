@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public int coinValue;
+    public string coinValue;
 
     public void MoveToTarget(Vector3 targetPosition)
     {

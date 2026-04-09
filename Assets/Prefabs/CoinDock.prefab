@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 3314706747033300942}
   - component: {fileID: 6125131487984767439}
   - component: {fileID: 6947389524077718250}
-  - component: {fileID: 6526305299524145440}
+  - component: {fileID: 1420032475413838979}
   m_Layer: 0
   m_Name: CoinDock
   m_TagString: Untagged
@@ -316,7 +316,6 @@ Transform:
   - {fileID: 658966058973046868}
   - {fileID: 1558111400334873285}
   - {fileID: 3651422146412146162}
-  - {fileID: 9006961195719611993}
   - {fileID: 1948307992676856984}
   - {fileID: 227611205799099878}
   - {fileID: 4024271944524029293}
@@ -395,7 +394,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 1, z: 11}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6526305299524145440
+--- !u!114 &1420032475413838979
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,47 +406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28684943fdc5298479f2742dd83866db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  capacity: 10
-  coinStack: []
-  slotPositions:
-  - {fileID: 6229364210470091597}
-  - {fileID: 3913442606800831992}
-  - {fileID: 4024271944524029293}
-  - {fileID: 227611205799099878}
-  - {fileID: 1948307992676856984}
-  - {fileID: 9006961195719611993}
-  - {fileID: 3651422146412146162}
-  - {fileID: 1558111400334873285}
-  - {fileID: 658966058973046868}
-  - {fileID: 9080133454572675390}
---- !u!1 &8497592970828366591
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9006961195719611993}
-  m_Layer: 0
-  m_Name: Slot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9006961195719611993
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8497592970828366591}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.56}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7555435234073183038}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  CoinStack: 9
+  coins: []
+  SlotPositions: []
