@@ -23,11 +23,11 @@ public class GamePlayManager : Singleton<GamePlayManager>
             CoinDock dock = hit.collider.GetComponent<CoinDock>();
             if (dock != null)
             {
-                if (choosenDock == null)
+                if (choosenDock == null && dock.CoinInDock.Count > 0)
                 {
                     choosenDock = dock;
                 }
-                else
+                else if(choosenDock != null)
                 {
                     targetDock = dock;
                     MoveCoin(choosenDock, targetDock);
@@ -43,11 +43,13 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     public void MoveCoin(CoinDock choosenDock, CoinDock targetDock)
     {
-        List<Coin> currentdock = choosenDock.CoinInDock;
+        targetDock.Addcoin(targetDock, choosenDock.TopCoin());
+        choosenDock.Removecoin(choosenDock, choosenDock.TopCoin());
+        ResetTarget();
+    }
 
-        targetDock.CoinInDock.AddRange(currentdock);
-        targetDock.CoinInDock[targetDock.CoinInDock.Count - 1].MoveToTarget(targetDock.transform.position);
-        choosenDock.CoinInDock.RemoveRange(0, 1);
+    private void ResetTarget()
+    {
         this.choosenDock = null;
         this.targetDock = null;
     }

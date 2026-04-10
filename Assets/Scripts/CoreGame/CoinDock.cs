@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class CoinDock : MonoBehaviour
 {
-    [SerializeField] private float CoinStack = 9f;
+    [SerializeField] private float MaxStack = 9f;
+    [SerializeField] private float currentStack = 0f;
 
     public List<Coin> CoinInDock = new List<Coin>();
     public Transform[] SlotPositions;
+    public DockState currentState;
 
     public enum DockState
     {
@@ -17,15 +19,19 @@ public class CoinDock : MonoBehaviour
         full,
     }
 
-    public DockState currentState;
-
     private void Start()
     {
-        if(CoinInDock.Count == 0)
+        CheckCurrentState();
+        MovecointoDock();
+    }
+
+    private void CheckCurrentState()
+    {
+        if (CoinInDock.Count == 0)
         {
             currentState = DockState.empty;
         }
-        else if(CoinInDock.Count == CoinStack)
+        else if (CoinInDock.Count == MaxStack)
         {
             currentState = DockState.full;
         }
@@ -33,20 +39,9 @@ public class CoinDock : MonoBehaviour
         {
             currentState = DockState.stillhasSpace;
         }
-        Movecoin();
     }
 
-    //private void CheckToAddCoin(CoinDock dock)
-    //{
-    //    if(dock.currentState == DockState.empty)
-    //    {
-    //        dock.CoinInDock.Add(CoinInDock[CoinInDock.Count - 1]);
-    //        CoinInDock[CoinInDock.Count - 1].MoveToTarget(SlotPositions[0].position);
-    //        dock.currentState = DockState.stillhasSpace;
-    //    }
-    //}
-
-    private void Movecoin()
+    private void MovecointoDock()
     {
         for(int i = 0; i <= CoinInDock.Count - 1; i++)
         {
@@ -54,10 +49,47 @@ public class CoinDock : MonoBehaviour
         }
     }
 
-    private int TopCoin()
+    public void Addcoin(CoinDock targetDock, Coin coin)
     {
-
-        return 0;
+        for(int i = 0; i < GetCoinCount(); i++)
+        {
+            targetDock.CoinInDock.Add(coin);
+            currentStack += 1f;
+            coin.MoveToTarget(SlotPositions[CoinInDock.Count - 1].position);
+        }
     }
     
+    public void Removecoin(CoinDock sourceDock, Coin coin)
+    {
+        for(int i = 0; i < GetCoinCount(); i++)
+        {
+            sourceDock.CoinInDock.Remove(coin);
+            currentStack -= 1f;
+        }
+    }
+
+    public Coin TopCoin()
+    {
+        if (CoinInDock.Count > 0)
+        {
+            return CoinInDock[CoinInDock.Count - 1];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public int GetCoinCount()
+    {
+        int countcoin = 0;
+        for (int i = CoinInDock.Count - 1; i > 0; i--)
+        {
+            if (CoinInDock[i].coinValue == CoinInDock[i - 1].coinValue)
+            {
+                countcoin += 1;
+            }
+        }
+        return countcoin;
+    }
 }
