@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MainGame
-{
+
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T instance;
@@ -34,4 +33,3 @@ namespace MainGame
             return (instance != null);
         }
     }
-}

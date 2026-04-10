@@ -1,51 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class CoinDock : MonoBehaviour
 {
     [SerializeField] private float CoinStack = 9f;
-    [SerializeField] private string coinvalue;
 
-    private float count;
-
-    public List<Coin> coins = new List<Coin>();
+    public List<Coin> CoinInDock = new List<Coin>();
     public Transform[] SlotPositions;
 
-    public void AddCoin(Coin coin)
+    public enum DockState
     {
-        if (coins.Count >= CoinStack)
+        empty,
+        stillhasSpace,
+        full,
+    }
+
+    public DockState currentState;
+
+    private void Start()
+    {
+        if(CoinInDock.Count == 0)
         {
-            return;
+            currentState = DockState.empty;
         }
-        else if(count > (CoinStack - coins.Count))
+        else if(CoinInDock.Count == CoinStack)
         {
-            return;
+            currentState = DockState.full;
         }
         else
         {
-            coins.Add(coin);
-            coin.MoveToTarget(SlotPositions[coins.Count - 1].position);
+            currentState = DockState.stillhasSpace;
         }
+        Movecoin();
     }
 
-    public void ExchangeCoin(Coin topcoin)
+    //private void CheckToAddCoin(CoinDock dock)
+    //{
+    //    if(dock.currentState == DockState.empty)
+    //    {
+    //        dock.CoinInDock.Add(CoinInDock[CoinInDock.Count - 1]);
+    //        CoinInDock[CoinInDock.Count - 1].MoveToTarget(SlotPositions[0].position);
+    //        dock.currentState = DockState.stillhasSpace;
+    //    }
+    //}
+
+    private void Movecoin()
     {
-        count = 1;
-        coinvalue = topcoin.coinValue;
-        for(int i = coins.Count - 1; i > 0; i++)
+        for(int i = 0; i <= CoinInDock.Count - 1; i++)
         {
-            if (coins[i].coinValue == coinvalue)
-            {
-                count++;
-                AddCoin(coins[i]);
-            }
-            else
-            {
-                break;
-            }
+            CoinInDock[i].MoveToTarget(SlotPositions[i].position);
         }
     }
 
+    private int TopCoin()
+    {
 
+        return 0;
+    }
+    
 }

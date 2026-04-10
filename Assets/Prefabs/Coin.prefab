@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 3789371852048653362}
   - component: {fileID: 5799965752723843900}
   - component: {fileID: 6986113021541785639}
-  - component: {fileID: 5551607284631754559}
   - component: {fileID: 1817904997797813870}
   m_Layer: 0
   m_Name: Coin
@@ -169,27 +168,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5551607284631754559
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6988854675078042567}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.32842365, y: 0.32759586, z: 0.07784319}
-  m_Center: {x: -0.001387164, y: -0.000048473477, z: 0.0008682627}
 --- !u!114 &1817904997797813870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,5 +180,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6753ccd68568a4e44a17e58acd84a0eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
-  dockSlotIndex: 0
+  coinValue: 
