@@ -43,10 +43,12 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     public void MoveCoin(CoinDock choosenDock, CoinDock targetDock)
     {
-        for(int i = 0; i < choosenDock.CoinInDock.Count; i++)
+        int coinCount = choosenDock.GetCoinCount();
+        for(int i = 0; i < coinCount; i++)
         {
-            targetDock.Addcoin(targetDock, choosenDock.TopCoin());
-            choosenDock.Removecoin(choosenDock, choosenDock.TopCoin());
+            targetDock.Addcoin(targetDock, choosenDock.CoinInDock[targetDock.CoinInDock.Count - 1]);
+            choosenDock.Removecoin(choosenDock, choosenDock.CoinInDock[choosenDock.CoinInDock.Count - 1]);
+            coinCount--;
         }
         ResetTarget();
     }

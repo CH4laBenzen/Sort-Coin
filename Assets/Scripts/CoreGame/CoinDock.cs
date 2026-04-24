@@ -24,6 +24,7 @@ public class CoinDock : MonoBehaviour
     {
         CheckCurrentState();
         MovecointoDock();
+        Debug.Log("Count:" + GetCoinCount());
     }
 
     private void CheckCurrentState()
@@ -61,28 +62,17 @@ public class CoinDock : MonoBehaviour
         choosenDock.CoinInDock.Remove(coin);
     }
 
-    public Coin TopCoin()
-    {
-        if (CoinInDock.Count > 0)
-        {
-            return CoinInDock[CoinInDock.Count - 1];
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public int GetCoinCount()
     {
-        int countcoin = 0;
-        for (int i = CoinInDock.Count - 1; i > 0; i--)
+        int count = 1;
+        int coinCount = CoinInDock.Count;
+        for (int i = coinCount - 1; i > 0; i--)
         {
             if (CoinInDock[i].coinValue == CoinInDock[i - 1].coinValue)
             {
-                countcoin += 1;
+                count++;
             }
         }
-        return countcoin;
+        return count;
     }
 }
