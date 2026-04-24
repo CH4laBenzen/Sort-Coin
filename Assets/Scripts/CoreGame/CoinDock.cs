@@ -10,6 +10,7 @@ public class CoinDock : MonoBehaviour
 
     public List<Coin> CoinInDock = new List<Coin>();
     public Transform[] SlotPositions;
+    
     public DockState currentState;
 
     public enum DockState
@@ -51,21 +52,13 @@ public class CoinDock : MonoBehaviour
 
     public void Addcoin(CoinDock targetDock, Coin coin)
     {
-        for(int i = 0; i < GetCoinCount(); i++)
-        {
-            targetDock.CoinInDock.Add(coin);
-            currentStack += 1f;
-            coin.MoveToTarget(SlotPositions[CoinInDock.Count - 1].position);
-        }
+        targetDock.CoinInDock.Add(coin);
+        coin.MoveToTarget(targetDock.SlotPositions[targetDock.CoinInDock.Count - 1].position);
     }
     
-    public void Removecoin(CoinDock sourceDock, Coin coin)
+    public void Removecoin(CoinDock choosenDock, Coin coin)
     {
-        for(int i = 0; i < GetCoinCount(); i++)
-        {
-            sourceDock.CoinInDock.Remove(coin);
-            currentStack -= 1f;
-        }
+        choosenDock.CoinInDock.Remove(coin);
     }
 
     public Coin TopCoin()
