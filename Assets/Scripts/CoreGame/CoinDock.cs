@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CoinDock : MonoBehaviour
 {
-    [SerializeField] private float MaxStack = 9f;
-    [SerializeField] private float currentStack = 0f;
+    public float MaxStack = 9f;
+    public float currentStack = 0f;
 
     public List<Coin> CoinInDock = new List<Coin>();
     public Transform[] SlotPositions;
@@ -22,9 +22,8 @@ public class CoinDock : MonoBehaviour
 
     private void Start()
     {
+        MoveCoinToDock();
         CheckCurrentState();
-        MovecointoDock();
-        Debug.Log("Count:" + GetCoinCount());
     }
 
     private void CheckCurrentState()
@@ -43,36 +42,11 @@ public class CoinDock : MonoBehaviour
         }
     }
 
-    private void MovecointoDock()
+    public void MoveCoinToDock()
     {
-        for(int i = 0; i <= CoinInDock.Count - 1; i++)
+        for(int i = 0; i < CoinInDock.Count; i++)
         {
             CoinInDock[i].MoveToTarget(SlotPositions[i].position);
         }
-    }
-
-    public void Addcoin(CoinDock targetDock, Coin coin)
-    {
-        targetDock.CoinInDock.Add(coin);
-        coin.MoveToTarget(targetDock.SlotPositions[targetDock.CoinInDock.Count - 1].position);
-    }
-    
-    public void Removecoin(CoinDock choosenDock, Coin coin)
-    {
-        choosenDock.CoinInDock.Remove(coin);
-    }
-
-    public int GetCoinCount()
-    {
-        int count = 1;
-        int coinCount = CoinInDock.Count;
-        for (int i = coinCount - 1; i > 0; i--)
-        {
-            if (CoinInDock[i].coinValue == CoinInDock[i - 1].coinValue)
-            {
-                count++;
-            }
-        }
-        return count;
     }
 }

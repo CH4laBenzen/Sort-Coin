@@ -23,14 +23,15 @@ public class GamePlayManager : Singleton<GamePlayManager>
             CoinDock dock = hit.collider.GetComponent<CoinDock>();
             if (dock != null)
             {
-                if (choosenDock == null && dock.CoinInDock.Count != 0)
+                if (choosenDock == null)
                 {
                     choosenDock = dock;
                 }
-                else if(choosenDock != null && dock != choosenDock)
+                else if(choosenDock != null)
                 {
                     targetDock = dock;
-                    MoveCoin(choosenDock, targetDock);
+                    //MoveCoin(choosenDock, targetDock);
+                    MoveAllCoin(choosenDock, targetDock);
                 }
             }
             else
@@ -41,14 +42,29 @@ public class GamePlayManager : Singleton<GamePlayManager>
         }
     }
 
-    public void MoveCoin(CoinDock choosenDock, CoinDock targetDock)
+    public void MoveAllCoin(CoinDock fromDock, CoinDock toDock)
     {
-        int coinCount = choosenDock.GetCoinCount();
-        for(int i = 0; i < coinCount; i++)
+        if (fromDock.CoinInDock.Count > 0 && toDock.CoinInDock.Count < toDock.MaxStack)
         {
-            targetDock.Addcoin(targetDock, choosenDock.CoinInDock[targetDock.CoinInDock.Count - 1]);
-            choosenDock.Removecoin(choosenDock, choosenDock.CoinInDock[choosenDock.CoinInDock.Count - 1]);
-            coinCount--;
+            List<Coin> coinsToMove = new List<Coin>(fromDock.CoinInDock);
+            fromDock.CoinInDock.Clear();
+            toDock.CoinInDock.AddRange(coinsToMove);
+            for (int i = coinsToMove.Count - 1; i >= 0; i--)
+            {
+                coinsToMove[i].MoveToTarget(toDock.SlotPositions[toDock.CoinInDock.Count - 1 - i].position);
+            }
+        }
+        ResetTarget();
+    }
+
+    public void MoveCoin(CoinDock fromDock, CoinDock toDock)
+    {
+        if (fromDock.CoinInDock.Count > 0 && toDock.CoinInDock.Count < toDock.MaxStack)
+        {
+            Coin coinToMove = fromDock.CoinInDock[fromDock.CoinInDock.Count - 1];
+            fromDock.CoinInDock.Remove(coinToMove);
+            toDock.CoinInDock.Add(coinToMove);
+            coinToMove.MoveToTarget(toDock.SlotPositions[toDock.CoinInDock.Count - 1].position);
         }
         ResetTarget();
     }
