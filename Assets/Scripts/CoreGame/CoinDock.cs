@@ -49,4 +49,25 @@ public class CoinDock : MonoBehaviour
             CoinInDock[i].MoveToTarget(SlotPositions[i].position);
         }
     }
+
+    public int FetchTotalCoin()
+    {
+        if(CoinInDock.Count == 0)
+        {
+            return 0;
+        }
+        string lastValue = CoinInDock[CoinInDock.Count - 1].coinValue; 
+        int countCoin = 0;
+        for(int i = CoinInDock.Count - 1; i >= 0; i--)
+        {
+            if(CoinInDock[i].coinValue == lastValue)
+            {
+                countCoin++;
+            }
+            else{
+                break;
+            }
+        }
+        return countCoin;
+    }
 }
