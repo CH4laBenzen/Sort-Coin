@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &726836309412102386
+--- !u!1001 &599038882896751388
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -27,10 +27,6 @@ PrefabInstance:
     - target: {fileID: 1632728385927608132, guid: 0e46805fe6fce504c9a3fcf92d976d7c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1817904997797813870, guid: 0e46805fe6fce504c9a3fcf92d976d7c, type: 3}
-      propertyPath: coinValue
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3789371852048653362, guid: 0e46805fe6fce504c9a3fcf92d976d7c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -75,14 +71,14 @@ PrefabInstance:
     - target: {fileID: 4100339182654923478, guid: 0e46805fe6fce504c9a3fcf92d976d7c, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 102241cefc65285438a75b1423f9983a, type: 2}
+      objectReference: {fileID: 4300000, guid: 0128bf3de3c233d40abfea97d59e1d26, type: 2}
     - target: {fileID: 6986113021541785639, guid: 0e46805fe6fce504c9a3fcf92d976d7c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 852d0dffc66b75545b5d047007c807f9, type: 2}
+      objectReference: {fileID: 2100000, guid: 232fc51f4fbd15e4d824a2d36a8159a3, type: 2}
     - target: {fileID: 6988854675078042567, guid: 0e46805fe6fce504c9a3fcf92d976d7c, type: 3}
       propertyPath: m_Name
-      value: Coin_2
+      value: Coin_6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

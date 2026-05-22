@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 public class GamePlayManager : Singleton<GamePlayManager>
 {
@@ -28,8 +30,15 @@ public class GamePlayManager : Singleton<GamePlayManager>
             {
                 if (choosenDock == null)
                 {
-                    choosenDock = dock;
                     int countCoin = dock.FetchTotalCoin();
+                    if(dock.CoinInDock.Count > 0)
+                    {
+                        choosenDock = dock;
+                        for(int i = choosenDock.CoinInDock.Count - 1; i >= (choosenDock.CoinInDock.Count - countCoin); i--)
+                        {
+                            choosenDock.CoinInDock[i].HoverUp();
+                        }
+                    }
                     if(choosenDock.CoinInDock.Count > 0)
                     {
                         Debug.Log("Choosen Dock: " + countCoin + " coins of value " + choosenDock.CoinInDock[choosenDock.CoinInDock.Count - 1].coinValue);
@@ -45,7 +54,7 @@ public class GamePlayManager : Singleton<GamePlayManager>
                     }
                     else
                     {
-                        ResetTarget();
+                        CancelSelection();
                     }
                 }
             }
@@ -86,9 +95,9 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     public void MoveIndexCoin(CoinDock fromDock, CoinDock toDock)
     {
-        if(fromDock.CoinInDock.Count == 0 || toDock.CoinInDock.Count >= toDock.MaxStack)
+        if(fromDock.CoinInDock.Count == 0 || toDock.CoinInDock.Count >= toDock.MaxStack || fromDock == toDock)
         {
-            ResetTarget();
+            CancelSelection();
             return;
         }
         bool canMove = false;
@@ -106,33 +115,20 @@ public class GamePlayManager : Singleton<GamePlayManager>
             }
             else
             {
-                ResetTarget();
+                CancelSelection();
                 return;
             }
         }
         if(canMove)
         {
-            // int count = fromDock.FetchTotalCoin();
-            // float availableSpace = toDock.MaxStack - toDock.CoinInDock.Count;
-            // if(count > availableSpace)
-            // {
-            //     count = (int)availableSpace;
-            // }
-            // List<Coin> coinsToMove = fromDock.CoinInDock.GetRange(fromDock.CoinInDock.Count - count, count);
-            // fromDock.CoinInDock.RemoveRange(fromDock.CoinInDock.Count - count, count);
-            // toDock.CoinInDock.AddRange(coinsToMove);
-            // for (int i = coinsToMove.Count - 1; i >= 0; i--)
-            // {
-            //     coinsToMove[i].MoveToTarget(toDock.SlotPositions[toDock.CoinInDock.Count - 1 - i].position);
-            // }
-            // ResetTarget();
-
             int count = fromDock.FetchTotalCoin();
             int currentInTarget = toDock.CoinInDock.Count;
-            float availableSpace = toDock.MaxStack - currentInTarget;
+            int availableSpace = toDock.MaxStack - currentInTarget;
+            int coinLeft = 0;
             if (count > availableSpace) 
             {
-                count = (int)availableSpace;
+                coinLeft = count - availableSpace;
+                count = availableSpace;
             }
             if (count > 0)
             {
@@ -146,15 +142,29 @@ public class GamePlayManager : Singleton<GamePlayManager>
                     if (targetSlotIndex < toDock.SlotPositions.Length)
                     {
                         coinsToMove[i].MoveToTarget(toDock.SlotPositions[targetSlotIndex].position);
+                        if(toDock.CoinInDock.Count >= toDock.MaxStack)
+                        {
+                            StartCoroutine(MoveAndCheckMergeRoutine(fromDock, toDock));
+                        }
                     }
-                    if(toDock.CoinInDock.Count >= toDock.MaxStack)
-                    {
-                        CheckCoinToMerge();
-                    }
+                    // if(toDock.CoinInDock.Count >= toDock.MaxStack)
+                    // {
+                    //     CheckCoinToMerge();
+                    // }
                 }
+            }
+            for(int i = fromDock.CoinInDock.Count - 1; i >= (fromDock.CoinInDock.Count - coinLeft); i--)
+            {
+                fromDock.CoinInDock[i].HoverDown();
             }
             ResetTarget();
         }
+    }
+
+    private IEnumerator MoveAndCheckMergeRoutine(CoinDock fromDock, CoinDock toDock)
+    {
+        yield return new WaitForSeconds(0.4f);
+        CheckCoinToMerge();
     }
 
     public void CheckCoinToMerge()
@@ -188,7 +198,7 @@ public class GamePlayManager : Singleton<GamePlayManager>
                     Coin newCoin = newCoinObj.GetComponent<Coin>();
                     newCoin.coinValue = nextValue.ToString();
                     targetDock.CoinInDock.Add(newCoin);
-                    newCoin.MoveToTarget(targetDock.SlotPositions[i].position);
+                    newCoin.SpawnAtPosition(targetDock.SlotPositions[i].position);
                 }
             }
         }
@@ -199,4 +209,19 @@ public class GamePlayManager : Singleton<GamePlayManager>
         this.choosenDock = null;
         this.targetDock = null;
     }
+
+    private void CancelSelection()
+    {
+        if(choosenDock != null){
+            int count = choosenDock.FetchTotalCoin();
+            int total = choosenDock.CoinInDock.Count;
+            for(int  i = total - 1; i >= (total - count); i--)
+            {
+                choosenDock.CoinInDock[i].HoverDown();
+            }
+        }
+        ResetTarget();
+    }
+
+
 }

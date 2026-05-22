@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CoinDock : MonoBehaviour
 {
-    public float MaxStack = 9f;
-    public float currentStack = 0f;
+    public int MaxStack = 9;
+    public int currentStack = 0;
 
     public List<Coin> CoinInDock = new List<Coin>();
     public Transform[] SlotPositions;
