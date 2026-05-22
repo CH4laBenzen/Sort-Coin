@@ -19,7 +19,7 @@ public class Coin : MonoBehaviour
 
     public void MoveToTarget(Vector3 targetPosition)
     {
-        transform.DOJump(targetPosition, 1.5f, 1, 0.4f).SetEase(Ease.OutQuad).OnComplete(() => {
+        transform.DOJump(targetPosition, 1.3f, 1, 0.4f).SetEase(Ease.OutQuad).OnComplete(() => {
             transform.DOPunchScale(new Vector3(0.1f, -0.1f, 0.1f), 0.15f, 5, 0.5f);
         });
     }
