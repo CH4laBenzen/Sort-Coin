@@ -25,8 +25,8 @@ public class Coin : MonoBehaviour
     }
     public void SpawnAtPosition(Vector3 targetPos)
     {
-    transform.position = targetPos;
-    transform.localScale = Vector3.zero;
-    transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+        transform.position = targetPos;
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
     }
 }

@@ -8,8 +8,11 @@ public class GamePlayManager : Singleton<GamePlayManager>
     [Header("References")]
     public CoinDock choosenDock;
     public CoinDock targetDock;
+    public Vector3 coinSpawnPoint;
+
     [Header("Prefabs")]
     public GameObject[] coinPrefabs;
+
     [Header("CoinDock")]
     public CoinDock[] allDocks;
 
@@ -169,6 +172,8 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     public void CheckCoinToMerge()
     {
+        if (targetDock == null || targetDock.CoinInDock.Count == 0) return;
+
         string lastValue = targetDock.CoinInDock[targetDock.CoinInDock.Count - 1].coinValue;
         bool allSame = true;
         foreach(Coin coin in targetDock.CoinInDock)
@@ -227,9 +232,11 @@ public class GamePlayManager : Singleton<GamePlayManager>
     private int GetHighestCoinValue(CoinDock dock)
     {
         int highestValue = 0;
+        if(dock.CoinInDock.Count ==0){
+            return highestValue;
+        }
         foreach(CoinDock d in allDocks)
         {
-            if(d.CoinInDock.Count == 0) continue;
             foreach(Coin coin in d.CoinInDock){
                 if (int.TryParse(coin.coinValue, out int value))
                 {
@@ -258,9 +265,9 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     public void DealButtonPressed()
     {
-        int SpawnTime = Random.Range(2, 5);
+        int SpawnTime = Random.Range(3, 4);
         for(int i = 0; i < SpawnTime; i++){
-            int countToSpawn = Random.Range(2, 4);
+            int countToSpawn = Random.Range(3, 4);
             List<CoinDock> validDocks = GetAvailableDocks(countToSpawn);
             if (validDocks.Count == 0)
             {
@@ -270,28 +277,58 @@ public class GamePlayManager : Singleton<GamePlayManager>
             CoinDock targetDock = validDocks[Random.Range(0, validDocks.Count)];
             int highestValue = GetHighestCoinValue(targetDock);
             Debug.Log("Giá trị xu cao nhất hiện tại: " + highestValue);
-            int spawnCoinValue = Random.Range(0, highestValue - 1);
+            int spawnCoinValue = Random.Range(0, highestValue);
             SpawnCoinsToDock(targetDock, spawnCoinValue, countToSpawn);
         }
     }
 
-    private void SpawnCoinsToDock(CoinDock dock, int coinValue, int count)
-    {
+    // private void SpawnCoinsToDock(CoinDock dock, int coinValue, int count)
+    // {
+    //     int currentCount = dock.CoinInDock.Count;
+    //     for (int i = 0; i < count; i++)
+    //     {
+    //         int slotIndex = currentCount + i;
+    //         Vector3 targetPosition = dock.SlotPositions[slotIndex].position;
+    //         GameObject newCoinObj = Instantiate(coinPrefabs[coinValue], targetPosition, Quaternion.identity);
+    //         Coin newCoin = newCoinObj.GetComponent<Coin>();
+    //         newCoin.coinValue = coinValue.ToString();
+    //         dock.CoinInDock.Add(newCoin);
+    //         newCoin.SpawnAtPosition(targetPosition);
+    //     }
+    //     Debug.Log($"Đã sinh {count} xu giá trị {coinValue} vào khay: {dock.gameObject.name}");
+    //     if (dock.CoinInDock.Count == dock.MaxStack)
+    //     {
+    //         CheckCoinToMerge();
+    //     }
+    // }
+
+    private void SpawnCoinsToDock(CoinDock dock, int coinValue, int count){
         int currentCount = dock.CoinInDock.Count;
-        for (int i = 0; i < count; i++)
-        {
+        int coinsFinishedMoving = 0;
+        for (int i = 0; i < count; i++){
             int slotIndex = currentCount + i;
             Vector3 targetPosition = dock.SlotPositions[slotIndex].position;
-            GameObject newCoinObj = Instantiate(coinPrefabs[coinValue], targetPosition, Quaternion.identity);
+            GameObject newCoinObj = Instantiate(coinPrefabs[coinValue], coinSpawnPoint, Quaternion.identity);
             Coin newCoin = newCoinObj.GetComponent<Coin>();
             newCoin.coinValue = coinValue.ToString();
             dock.CoinInDock.Add(newCoin);
-            newCoin.SpawnAtPosition(targetPosition);
-        }
-        Debug.Log($"Đã sinh {count} xu giá trị {coinValue} vào khay: {dock.gameObject.name}");
-        if (dock.CoinInDock.Count == dock.MaxStack)
-        {
-            CheckCoinToMerge();
+            newCoinObj.transform.localScale = Vector3.zero;
+            newCoinObj.transform.DOScale(Vector3.one, 0.15f);
+            newCoinObj.transform.DOMove(targetPosition, 0.5f)
+                .SetDelay(i * 0.08f) 
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => 
+                {
+                    newCoin.SpawnAtPosition(targetPosition);
+                    coinsFinishedMoving++;
+                    if (coinsFinishedMoving == count)
+                    {
+                        if (dock.CoinInDock.Count >= dock.MaxStack)
+                        {
+                            StartCoroutine(MoveAndCheckMergeRoutine());
+                        }
+                    }
+                });
         }
     }
 }
